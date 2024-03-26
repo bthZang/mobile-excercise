@@ -1,14 +1,18 @@
-import { StyleSheet } from 'react-native';
+import { Button, StyleSheet, TextInput, View, Text } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { router } from 'expo-router';
 
-export default function TabOneScreen() {
+export default function LoginScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <Text style={styles.title}>Login</Text>
+      <View><TextInput ></TextInput></View>
+      
+      <View style={styles.separator} />
+      <Button onPress={() => {
+        router.push('/(tabs)/home/user')
+      }} title='Login'></Button>
     </View>
   );
 }
@@ -22,6 +26,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: 'red',
   },
   separator: {
     marginVertical: 30,
