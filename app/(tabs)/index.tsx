@@ -1,4 +1,11 @@
-import { Button, StyleSheet, TextInput, View, Text } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  TextInput,
+  View,
+  Text,
+  ScrollView,
+} from "react-native";
 
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { router } from "expo-router";
@@ -45,45 +52,59 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.textInput}>
-        <TextInput
-          onChangeText={setUsername}
-          autoFocus
-          placeholder="Username"
-        ></TextInput>
-      </View>
-      <View style={styles.textInput}>
-        <TextInput
-          onChangeText={setPassword}
-          autoFocus
-          placeholder="Password"
-        ></TextInput>
-      </View>
-
-      <View style={styles.separator} />
-      <Button
-        onPress={() => {
-          if (handleLogin(username, password))
-            router.push({ pathname: "/(tabs)/home/user", params: { ...user } });
-          else alert("invalid");
-        }}
-        title="Login"
-      ></Button>
-      <View style={{ marginTop: 20 }}>
-        <Button
-          onPress={() => {
-            handlePress();
-          }}
-          title="Fetch API"
-        ></Button>
-      </View>
-      <View style={styles.container}>
-        {data.map((data: string) => (
-          <View >
-            <Text >{data}</Text>
+      {data.length ? (
+        <View style={{ flex: 1 }}>
+          <ScrollView style={{marginTop: 50}}>
+            {data.map((school: any) => (
+              <View >
+                <Text>{school.name}</Text>
+                <Text>{school.alpha_two_code}</Text>
+                <Text style={styles.text}>{school.country}</Text>
+                {school.web_pages.map((web: string) => (
+                  <Text>{web}</Text>
+                ))}
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      ) : (
+        <>
+          <View style={styles.textInput}>
+            <TextInput
+              onChangeText={setUsername}
+              autoFocus
+              placeholder="Username"
+            ></TextInput>
           </View>
-        ))}
-      </View>
+          <View style={styles.textInput}>
+            <TextInput
+              onChangeText={setPassword}
+              autoFocus
+              placeholder="Password"
+            ></TextInput>
+          </View>
+          <View style={styles.separator} />
+          <Button
+            onPress={() => {
+              if (handleLogin(username, password))
+                router.push({
+                  pathname: "/(tabs)/home/user",
+                  params: { ...user },
+                });
+              else alert("invalid");
+            }}
+            title="Login"
+          ></Button>
+          <View style={{ marginTop: 20 }}>
+            <Button
+              onPress={() => {
+                handlePress();
+              }}
+              title="Fetch API"
+            ></Button>
+          </View>
+        </>
+      )}
     </View>
   );
 }
@@ -113,5 +134,8 @@ const styles = StyleSheet.create({
     width: "70%",
     padding: 10,
     marginBottom: 30,
+  },
+  text: {
+    marginBottom: 15,
   },
 });
