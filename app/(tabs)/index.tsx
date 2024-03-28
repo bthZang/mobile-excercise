@@ -30,6 +30,19 @@ export default function LoginScreen() {
     return false;
   };
 
+  const [data, setData] = useState([]);
+
+  const handlePress = async () => {
+    fetch("http://universities.hipolabs.com/search?country=United%20States")
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setData(responseJson);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.textInput}>
@@ -56,6 +69,21 @@ export default function LoginScreen() {
         }}
         title="Login"
       ></Button>
+      <View style={{ marginTop: 20 }}>
+        <Button
+          onPress={() => {
+            handlePress();
+          }}
+          title="Fetch API"
+        ></Button>
+      </View>
+      <View style={styles.container}>
+        {data.map((data: string) => (
+          <View >
+            <Text >{data}</Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 }
